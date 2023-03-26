@@ -1,6 +1,8 @@
 import Product from "../models/ProductModel.js"
 import mongoose from "mongoose";
 import _ from "lodash";
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 
 export const getProducts = async (req, res) => {
@@ -15,7 +17,7 @@ export const getProducts = async (req, res) => {
 export const getProductsBySearchInput = async (req, res) => {
     try {
 
-        mongoose.connect("mongodb+srv://Pyjamees:Mycrushis1997!@cluster0.bba3wy4.mongodb.net/GroceriaDatabase", {useNewUrlParser: true, useUnifiedTopology: true});        
+        mongoose.connect("mongodb+srv://"+process.env.mongodb_user+":"+process.env.mongodb_pass+"@cluster0.bba3wy4.mongodb.net/GroceriaDatabase", {useNewUrlParser: true, useUnifiedTopology: true});        
 
         const searchSortInput = req.params['searchSortInput'].split('&');
         
