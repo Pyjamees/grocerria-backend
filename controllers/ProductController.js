@@ -24,12 +24,14 @@ export const getProductsBySearchInput = async (req, res) => {
         const searchInput = searchSortInput[0];
         const sortCategory = _.lowerCase(searchSortInput[1]);
         const sortOrder = Number(searchSortInput[2]);
-        const carbohydrateMinimum = Number(searchSortInput[3])
-        const carbohydrateMaximum  = Number(searchSortInput[4])
-        const proteinMinimum = Number(searchSortInput[5])
-        const proteinMaximum = Number(searchSortInput[6])
-        const totalFatMinimum = Number(searchSortInput[7])
-        const totalFatMaximum = Number(searchSortInput[8])
+        const carbohydrateMinimum = Number(searchSortInput[3]);
+        const carbohydrateMaximum  = Number(searchSortInput[4]);
+        const proteinMinimum = Number(searchSortInput[5]);
+        const proteinMaximum = Number(searchSortInput[6]);
+        const totalFatMinimum = Number(searchSortInput[7]);
+        const totalFatMaximum = Number(searchSortInput[8]);
+
+        console.log(searchSortInput)
 
         const compoundTextRangeAgg = {
           'should': [
@@ -124,7 +126,7 @@ export const getProductsBySearchInput = async (req, res) => {
 
         const searchAgg = {
           '$search': {
-            'index': 'GroceriaDatabaseIndex', 
+            'index': 'GrocerRiaDatabaseIndex', 
             'compound': searchInput != "" ? compoundTextRangeAgg : compoundRangeAgg 
           }
         }
@@ -149,6 +151,11 @@ export const getProductsBySearchInput = async (req, res) => {
           '$sort': {'totalFat': sortOrder}
         }
 
+        const sortAggPricePerQuantity = 
+        {
+          '$sort': {'pricePerQuantity': sortOrder}
+        }
+
         const sortAggScore = 
         {
           '$sort': {
@@ -158,7 +165,7 @@ export const getProductsBySearchInput = async (req, res) => {
           }
         }
 
-        const sortAgg = sortCategory === 'energy' ? sortAggEnergy : sortCategory === 'carbohydrate' ? sortAggCarbohydrate : sortCategory === 'protein' ? sortAggProtein : sortCategory === 'total fat' ? sortAggTotalFat : sortCategory === '' ? sortAggScore : ""
+        const sortAgg = sortCategory === 'energy' ? sortAggEnergy : sortCategory === 'carbohydrate' ? sortAggCarbohydrate : sortCategory === 'protein' ? sortAggProtein : sortCategory === 'total fat' ? sortAggTotalFat : sortCategory === 'price' ? sortAggPricePerQuantity : sortCategory === '' ? sortAggScore : ""
 
 
         let products = []
@@ -208,6 +215,7 @@ export const getProductsBySearchInput = async (req, res) => {
             }
           ]) 
 
+        console.log(products)
         res.json(products);
 
         

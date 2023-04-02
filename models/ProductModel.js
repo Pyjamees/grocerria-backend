@@ -12,9 +12,6 @@ const Product = mongoose.Schema({
   keywords: {
     type: Array
   },
-  price: {
-    type: String
-  },
   energy: {
     type: Number
   },
@@ -34,6 +31,15 @@ const Product = mongoose.Schema({
     type: Number
   },
   percentageCarbohydrate: {
+    type: Number
+  },
+  price: {
+    type: String
+  },
+  priceSaving: {
+    type: String
+  },
+  pricePerQuantity: {
     type: Number
   }
 });
